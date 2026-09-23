@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp:1-php8.3
+FROM dunglas/frankenphp:1-php8.4
 
 # Set environment variables for production
 ENV APP_ENV=production
@@ -32,5 +32,10 @@ RUN chmod -R 775 storage bootstrap/cache
 
 # Copy custom Caddyfile
 COPY Caddyfile /etc/caddy/Caddyfile
+
+# Generate a fresh SQLite database and seed it for the demo
+RUN touch database/database.sqlite \
+    && php artisan migrate --force \
+    && php artisan db:seed --force
 
 # The base image automatically starts FrankenPHP
