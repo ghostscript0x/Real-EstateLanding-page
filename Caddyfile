@@ -1,0 +1,18 @@
+{
+    # Enable FrankenPHP
+    frankenphp
+    # Run requests through index.php first, then static files
+    order php_server before file_server
+}
+
+# Listen on the dynamically provided PORT
+:{$PORT} {
+    # Set the root to Laravel's public directory
+    root * /app/public
+
+    # Serve PHP files
+    php_server
+
+    # Serve static files (assets, images, etc.)
+    file_server
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+    <path d="M4 10h16v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-4Z" />
+    <!-- Shower head -->
+    <path d="M8 4l2 -1h4" />
+    <path d="M14 3v4" />
+    <path d="M6 10v-3a2 2 0 0 1 2 -2" />
+    <!-- Signature offset dot -->
+    <circle cx="12" cy="7" r="1" fill="currentColor" stroke="none" />
+</svg>

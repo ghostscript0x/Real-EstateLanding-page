@@ -1,0 +1,36 @@
+FROM dunglas/frankenphp:1-php8.3
+
+# Set environment variables for production
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+# Vercel provides the port dynamically, default to 80 if not set
+ENV PORT=80
+# FrankenPHP needs to know the server name to listen on
+ENV SERVER_NAME=":{$PORT}"
+
+# Install necessary PHP extensions for Laravel (FrankenPHP already has many, but let's ensure zip/sqlite)
+RUN apt-get update && apt-get install -y \
+    unzip \
+    libzip-dev \
+    libsqlite3-dev \
+    && docker-php-ext-install zip pdo pdo_sqlite \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Copy application files
+WORKDIR /app
+COPY . /app/
+
+# Install Composer dependencies
+RUN composer install --optimize-autoloader --no-dev
+
+# Ensure storage and bootstrap/cache are writable
+RUN chown -R www-data:www-data storage bootstrap/cache
+RUN chmod -R 775 storage bootstrap/cache
+
+# Copy custom Caddyfile
+COPY Caddyfile /etc/caddy/Caddyfile
+
+# The base image automatically starts FrankenPHP
